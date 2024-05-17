@@ -9,7 +9,7 @@
         body {
             background: rgba(0, 0, 0, 0.5) url('background.jpg') no-repeat center center fixed; /* 50% transparent black background */
             background-size: cover; /* Cover the entire viewport */
-            color: #fff;
+            color: #ffcc00;
             font-family: 'Roboto', sans-serif;
             display: flex;
             flex-direction: column;
@@ -26,21 +26,23 @@
         h1 {
             font-size: 3em;
             margin: 20px 0;
+            color: #ff4500; /* Fire orange */
             animation: fadeInDown 1s ease-in-out, float 3s infinite ease-in-out;
         }
         a {
-            color: #00ffff;
+            color: #ff4500; /* Fire orange */
             text-decoration: none;
             font-weight: bold;
             animation: float 3s infinite ease-in-out;
         }
         a:hover {
-            color: #ff00ff;
+            color: #ffcc00; /* Fire yellow */
         }
         .ascii-art {
             font-family: monospace;
             white-space: pre;
             margin: 20px 0;
+            color: #ff6347; /* Fire red */
             animation: fadeIn 2s ease-in-out, float 3s infinite ease-in-out;
         }
         .links {
@@ -51,23 +53,24 @@
             animation: float 3s infinite ease-in-out;
         }
         .links a {
-            background: #00ffff;
-            color: #000;
+            background: #ff4500; /* Fire orange */
+            color: #fff;
             padding: 10px 20px;
             border-radius: 5px;
             transition: background 0.3s, color 0.3s;
             animation: float 3s infinite ease-in-out;
         }
         .links a:hover {
-            background: #000;
-            color: #fff;
+            background: #ffcc00; /* Fire yellow */
+            color: #000;
         }
         .about-me {
             max-width: 600px;
             margin-top: 20px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 69, 0, 0.1); /* Fire orange with transparency */
             border-radius: 10px;
+            color: #ff6347; /* Fire red */
             animation: fadeInUp 1.5s ease-in-out, float 3s infinite ease-in-out;
         }
         @keyframes fadeIn {
@@ -89,7 +92,7 @@
         .cursor {
             width: 20px;
             height: 20px;
-            background: #fff;
+            background: #ff4500; /* Fire orange */
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
@@ -190,12 +193,12 @@
             link.addEventListener('mouseover', function() {
                 document.getElementById('cursor').style.width = '40px';
                 document.getElementById('cursor').style.height = '40px';
-                document.getElementById('cursor').style.backgroundColor = '#00ffff';
+                document.getElementById('cursor').style.backgroundColor = '#ffcc00'; /* Fire yellow */
             });
             link.addEventListener('mouseout', function() {
                 document.getElementById('cursor').style.width = '20px';
                 document.getElementById('cursor').style.height = '20px';
-                document.getElementById('cursor').style.backgroundColor = '#00ffff';
+                document.getElementById('cursor').style.backgroundColor = '#ff4500'; /* Fire orange */
             });
         });
 
