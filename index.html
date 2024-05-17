@@ -144,9 +144,9 @@
         const dots = [];
         const cursor = document.getElementById('cursor');
         const numDots = 150;
-        const dampingFactor = 0.982; // Adjust the damping factor for desired smoothness
-        const attractionRadius = 235; // Radius within which dots are attracted to the cursor
-        let attractDots = true; // Flag to track if dots should be attracted to cursor
+        const dampingFactor = 0.982;
+        const attractionRadius = 235;
+        let attractDots = true;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -174,7 +174,6 @@
             this.x += this.vx;
             this.y += this.vy;
 
-            // Apply damping to gradually slow down the velocity
             this.vx *= dampingFactor;
             this.vy *= dampingFactor;
 
@@ -267,13 +266,13 @@
         });
 
         document.addEventListener('mousedown', function(event) {
-            if (event.button === 0) { // Left mouse button
+            if (event.button === 0) {
                 attractDots = true;
             }
         });
 
         document.addEventListener('mouseup', function(event) {
-            if (event.button === 0) { // Left mouse button
+            if (event.button === 0) {
                 attractDots = false;
             }
         });
