@@ -159,3 +159,123 @@
         const numDots = 30;
         const dampingFactor = 0.95; // Adjust the damping factor for desired smoothness
 
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function Dot(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() * 2 - 1);
+            this.vy = (Math.random() * 2 - 1);
+            this.radius = 3;
+        }
+
+        Dot.prototype.update = function() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Apply damping to gradually slow down the velocity
+            this.vx *= dampingFactor;
+            this.vy *= dampingFactor;
+
+            if (Math.abs(this.vx) < 0.1 && Math.abs(this.vy) < 0.1) {
+                this.vx = 0;
+                this.vy = 0;
+            }
+
+            if (this.x > canvas.width || this.x < 0) this.x = (this.x + canvas.width) % canvas.width;
+            if (this.y > canvas.height || this.y < 0) this.y = (this.y + canvas.height) % canvas.height;
+
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+                this.vx += dx * -0.001;
+                this.vy += dy * -0.001;
+            }
+        }
+
+        Dot.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff4500';
+            ctx.fill();
+        }
+
+        function drawLines() {
+            for (let i = 0; i < dots.length; i++) {
+                for (let j = i + 1; j < dots.length; j++) {
+                    const dx = dots[i].x - dots[j].x;
+                    const dy = dots[i].y - dots[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(dots[i].x, dots[i].y);
+                        ctx.lineTo(dots[j].x, dots[j].y);
+                        ctx.strokeStyle = `rgba(255, 69, 0, ${1 - distance / 150})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            dots.forEach(dot => {
+                dot.update();
+                dot.draw();
+            });
+
+            drawLines();
+
+            requestAnimationFrame(animate);
+        }
+
+        for (let i = 0; i < numDots; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            dots.push(new Dot(x, y));
+        }
+
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            cursor.style.opacity = '0.7';
+
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.backgroundColor = '#ffcc00';
+                });
+                link.addEventListener('mouseout', function() {
+                    cursor.style.width = '20px';
+                    cursor.style.height = '20px';
+                    cursor.style.backgroundColor = '#ff4500';
+                });
+            });
+        });
+
+        document.addEventListener('mouseout', function() {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
+        });
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animate();
+    </script>
+</body>
+</html>
