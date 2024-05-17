@@ -124,6 +124,14 @@
                 background: #fff;
             }
         }
+
+        /* Interactive text effect */
+        h1:hover,
+        a:hover,
+        .ascii-art:hover,
+        .about-me:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -182,6 +190,15 @@
                 document.getElementById('cursor').style.width = '20px';
                 document.getElementById('cursor').style.height = '20px';
                 document.getElementById('cursor').style.backgroundColor = 'transparent';
+            });
+        });
+
+        document.querySelectorAll('.float-3d').forEach(function(element) {
+            element.addEventListener('mouseover', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            element.addEventListener('mouseout', function() {
+                this.style.transform = 'scale(1)';
             });
         });
     </script>
