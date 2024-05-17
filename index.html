@@ -87,6 +87,16 @@
             z-index: 99999;
         }
 
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: #ff4500;
+            border-radius: 50%;
+            position: absolute;
+            pointer-events: none;
+            transition: background-color 0.2s;
+        }
+
         .fire {
             position: absolute;
             bottom: 0;
@@ -142,6 +152,7 @@
     </div>
     <div class="cursor" id="cursor"></div>
     <div class="fire"></div>
+
     <script>
         document.addEventListener('mousemove', function(e) {
             var cursor = document.getElementById('cursor');
@@ -162,6 +173,14 @@
                     cursor.style.backgroundColor = '#ff4500';
                 });
             });
+
+            document.querySelectorAll('.dot').forEach(dot => {
+                var dotX = Math.random() * 40 - 20;
+                var dotY = Math.random() * 40 - 20;
+                dot.style.left = (e.pageX + dotX) + 'px';
+                dot.style.top = (e.pageY + dotY) + 'px';
+                dot.style.opacity = Math.random();
+            });
         });
 
         document.addEventListener('mouseout', function() {
@@ -169,6 +188,12 @@
             cursor.style.transform = 'translate(-50%, -50%) scale(1)';
             cursor.style.opacity = '1';
         });
+
+        for (let i = 0; i < 20; i++) {
+            var dot = document.createElement('div');
+            dot.classList.add('dot');
+            document.body.appendChild(dot);
+        }
     </script>
 </body>
 </html>
