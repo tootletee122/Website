@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #000;
-            color: #fff;
+            background-color: #f8f9fa; /* Soft grey background */
+            color: #343a40; /* Dark text color */
             font-family: 'Roboto', sans-serif;
             display: flex;
             flex-direction: column;
@@ -29,12 +29,14 @@
             animation: fadeInDown 1s ease-in-out, float 3s infinite ease-in-out;
         }
         a {
-            color: #fff;
+            color: #0056b3; /* Blue link color */
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s; /* Smooth color transition */
             animation: float 3s infinite ease-in-out;
         }
         a:hover {
+            color: #007bff; /* Lighter blue on hover */
             text-decoration: underline;
         }
         .ascii-art {
@@ -51,23 +53,23 @@
             animation: float 3s infinite ease-in-out;
         }
         .links a {
-            background: #fff;
-            color: #000;
+            background: #007bff; /* Blue background for links */
+            color: #fff; /* White text color */
             padding: 10px 20px;
             border-radius: 5px;
             transition: background 0.3s, color 0.3s;
             animation: float 3s infinite ease-in-out;
         }
         .links a:hover {
-            background: #000;
-            color: #fff;
+            background: #0056b3; /* Darker blue on hover */
         }
         .about-me {
             max-width: 600px;
             margin-top: 20px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #fff; /* White background for about me section */
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
             animation: fadeInUp 1.5s ease-in-out, float 3s infinite ease-in-out;
         }
         @keyframes fadeIn {
@@ -89,7 +91,7 @@
         .cursor {
             width: 20px;
             height: 20px;
-            background: #fff;
+            background: #007bff; /* Blue cursor color */
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
@@ -103,25 +105,24 @@
 
         @media (prefers-color-scheme: dark) {
             body {
-                background-color: #000;
-                color: #fff;
+                background-color: #343a40; /* Dark background for dark mode */
+                color: #f8f9fa; /* Light text color for dark mode */
             }
             a {
-                color: #fff;
+                color: #6c757d; /* Light grey link color for dark mode */
             }
             .links a {
-                background: #fff;
-                color: #000;
+                background: #6c757d; /* Dark grey background for links in dark mode */
             }
             .links a:hover {
-                background: #000;
-                color: #fff;
+                background: #495057; /* Darker grey on hover in dark mode */
             }
             .about-me {
-                background: rgba(255, 255, 255, 0.1);
+                background: #343a40; /* Dark background for about me section in dark mode */
+                color: #f8f9fa; /* Light text color for about me section in dark mode */
             }
             .cursor {
-                background: #fff;
+                background: #6c757d; /* Light grey cursor color for dark mode */
             }
         }
 
@@ -184,12 +185,12 @@
             link.addEventListener('mouseover', function() {
                 document.getElementById('cursor').style.width = '40px';
                 document.getElementById('cursor').style.height = '40px';
-                document.getElementById('cursor').style.backgroundColor = '#fff';
+                document.getElementById('cursor').style.backgroundColor = '#007bff';
             });
             link.addEventListener('mouseout', function() {
                 document.getElementById('cursor').style.width = '20px';
                 document.getElementById('cursor').style.height = '20px';
-                document.getElementById('cursor').style.backgroundColor = 'transparent';
+                document.getElementById('cursor').style.backgroundColor = '#007bff';
             });
         });
 
