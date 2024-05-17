@@ -87,16 +87,6 @@
             z-index: 99999;
         }
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            background: #ff4500;
-            border-radius: 50%;
-            position: absolute;
-            pointer-events: none;
-            transition: background-color 0.2s;
-        }
-
         .fire {
             position: absolute;
             bottom: 0;
@@ -106,6 +96,13 @@
             background: linear-gradient(to top, rgba(255, 69, 0, 1), rgba(255, 69, 0, 0));
             animation: fire 1s infinite alternate ease-in-out;
             transform: translateX(-50%);
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
         @keyframes fadeIn {
@@ -152,10 +149,92 @@
     </div>
     <div class="cursor" id="cursor"></div>
     <div class="fire"></div>
-
+    <canvas id="canvas"></canvas>
     <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const dots = [];
+        const cursor = document.getElementById('cursor');
+        const numDots = 100;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function Dot(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = Math.random() * 2 - 1;
+            this.vy = Math.random() * 2 - 1;
+            this.radius = 3;
+        }
+
+        Dot.prototype.update = function() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x > canvas.width || this.x < 0) this.vx *= -1;
+            if (this.y > canvas.height || this.y < 0) this.vy *= -1;
+
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+                this.vx += dx * -0.01;
+                this.vy += dy * -0.01;
+            }
+        }
+
+        Dot.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff4500';
+            ctx.fill();
+        }
+
+        function drawLines() {
+            for (let i = 0; i < dots.length; i++) {
+                for (let j = i + 1; j < dots.length; j++) {
+                    const dx = dots[i].x - dots[j].x;
+                    const dy = dots[i].y - dots[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(dots[i].x, dots[i].y);
+                        ctx.lineTo(dots[j].x, dots[j].y);
+                        ctx.strokeStyle = `rgba(255, 69, 0, ${1 - distance / 100})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            dots.forEach(dot => {
+                dot.update();
+                dot.draw();
+            });
+
+            drawLines();
+
+            requestAnimationFrame(animate);
+        }
+
+        for (let i = 0; i < numDots; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            dots.push(new Dot(x, y));
+        }
+
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+
         document.addEventListener('mousemove', function(e) {
-            var cursor = document.getElementById('cursor');
+            mouseX = e.pageX;
+            mouseY = e.pageY;
             cursor.style.left = e.pageX + 'px';
             cursor.style.top = e.pageY + 'px';
             cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
@@ -173,27 +252,19 @@
                     cursor.style.backgroundColor = '#ff4500';
                 });
             });
-
-            document.querySelectorAll('.dot').forEach(dot => {
-                var dotX = Math.random() * 40 - 20;
-                var dotY = Math.random() * 40 - 20;
-                dot.style.left = (e.pageX + dotX) + 'px';
-                dot.style.top = (e.pageY + dotY) + 'px';
-                dot.style.opacity = Math.random();
-            });
         });
 
         document.addEventListener('mouseout', function() {
-            var cursor = document.getElementById('cursor');
             cursor.style.transform = 'translate(-50%, -50%) scale(1)';
             cursor.style.opacity = '1';
         });
 
-        for (let i = 0; i < 20; i++) {
-            var dot = document.createElement('div');
-            dot.classList.add('dot');
-            document.body.appendChild(dot);
-        }
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animate();
     </script>
 </body>
 </html>
