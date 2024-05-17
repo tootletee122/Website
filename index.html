@@ -94,7 +94,14 @@
             height: 2px;
             width: 0;
             pointer-events: none;
-            transition: width 0.1s, left 0.1s, top 0.1s;
+        }
+        .dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #007acc;
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -121,6 +128,9 @@
             .line {
                 background: #ff7f50;
             }
+            .dot {
+                background: #ff7f50;
+            }
         }
     </style>
 </head>
@@ -143,22 +153,46 @@
         <p>Hi, I'm Khris. I love coding and audio. Welcome to my simple website with a dark theme and some fun links!</p>
     </div>
     <div class="cursor" id="cursor"></div>
+    <div class="dot" id="dot1" style="top: 20px; left: 20px;"></div>
+    <div class="dot" id="dot2" style="top: 20px; right: 20px;"></div>
+    <div class="dot" id="dot3" style="bottom: 20px; left: 20px;"></div>
+    <div class="dot" id="dot4" style="bottom: 20px; right: 20px;"></div>
     <div class="line" id="line1"></div>
     <div class="line" id="line2"></div>
+    <div class="line" id="line3"></div>
+    <div class="line" id="line4"></div>
     <script>
         document.addEventListener('mousemove', function(e) {
             var cursor = document.getElementById('cursor');
             cursor.style.left = e.pageX + 'px';
             cursor.style.top = e.pageY + 'px';
             
+            var dot1 = document.getElementById('dot1');
+            var dot2 = document.getElementById('dot2');
+            var dot3 = document.getElementById('dot3');
+            var dot4 = document.getElementById('dot4');
+            
             var line1 = document.getElementById('line1');
             var line2 = document.getElementById('line2');
+            var line3 = document.getElementById('line3');
+            var line4 = document.getElementById('line4');
             
-            line1.style.width = e.pageX + 'px';
-            line1.style.top = e.pageY + 'px';
+            var updateLine = function(line, dotX, dotY) {
+                var cursorX = e.pageX;
+                var cursorY = e.pageY;
+                var length = Math.sqrt((cursorX - dotX) * (cursorX - dotX) + (cursorY - dotY) * (cursorY - dotY));
+                var angle = Math.atan2(cursorY - dotY, cursorX - dotX) * 180 / Math.PI;
+                
+                line.style.width = length + 'px';
+                line.style.transform = 'rotate(' + angle + 'deg)';
+                line.style.left = dotX + 'px';
+                line.style.top = dotY + 'px';
+            };
             
-            line2.style.height = e.pageY + 'px';
-            line2.style.left = e.pageX + 'px';
+            updateLine(line1, dot1.offsetLeft + 5, dot1.offsetTop + 5);
+            updateLine(line2, dot2.offsetLeft + 5, dot2.offsetTop + 5);
+            updateLine(line3, dot3.offsetLeft + 5, dot3.offsetTop + 5);
+            updateLine(line4, dot4.offsetLeft + 5, dot4.offsetTop + 5);
         });
 
         document.querySelectorAll('a').forEach(link => {
