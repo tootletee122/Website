@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khris's Hey Page</title>
+    <title>Interactive Hey Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #121212;
-            color: #ffffff;
+            background-color: #f0f0f0;
+            color: #000;
             font-family: 'Roboto', sans-serif;
             display: flex;
             flex-direction: column;
@@ -20,6 +20,8 @@
             box-sizing: border-box;
             text-align: center;
             cursor: none;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
         }
         h1 {
             font-size: 3em;
@@ -27,7 +29,7 @@
             animation: fadeInDown 1s ease-in-out;
         }
         a {
-            color: #1e90ff;
+            color: #007acc;
             text-decoration: none;
             font-weight: bold;
         }
@@ -47,21 +49,22 @@
             gap: 10px;
         }
         .links a {
-            background: #1e90ff;
+            background: #007acc;
             padding: 10px 20px;
             border-radius: 5px;
             transition: background 0.3s;
         }
         .links a:hover {
-            background: #0f5a8a;
+            background: #005f99;
         }
         .about-me {
             max-width: 600px;
             margin-top: 20px;
             padding: 20px;
-            background: #1e1e1e;
+            background: #e0e0e0;
             border-radius: 10px;
             animation: fadeInUp 1.5s ease-in-out;
+            transition: background 0.3s, color 0.3s;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -78,12 +81,46 @@
         .cursor {
             width: 20px;
             height: 20px;
-            border: 2px solid #1e90ff;
+            border: 2px solid #007acc;
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
             pointer-events: none;
             transition: transform 0.1s, background-color 0.2s;
+        }
+        .line {
+            position: absolute;
+            background: #007acc;
+            height: 2px;
+            width: 0;
+            pointer-events: none;
+            transition: width 0.1s, left 0.1s, top 0.1s;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #0a0a0a;
+                color: #e0e0e0;
+            }
+            a {
+                color: #ff7f50;
+            }
+            .links a {
+                background: #ff7f50;
+            }
+            .links a:hover {
+                background: #e5673c;
+            }
+            .about-me {
+                background: #1a1a1a;
+                color: #e0e0e0;
+            }
+            .cursor {
+                border-color: #ff7f50;
+            }
+            .line {
+                background: #ff7f50;
+            }
         }
     </style>
 </head>
@@ -106,16 +143,30 @@
         <p>Hi, I'm Khris. I love coding and audio. Welcome to my simple website with a dark theme and some fun links!</p>
     </div>
     <div class="cursor" id="cursor"></div>
+    <div class="line" id="line1"></div>
+    <div class="line" id="line2"></div>
     <script>
         document.addEventListener('mousemove', function(e) {
             var cursor = document.getElementById('cursor');
             cursor.style.left = e.pageX + 'px';
             cursor.style.top = e.pageY + 'px';
+            
+            var line1 = document.getElementById('line1');
+            var line2 = document.getElementById('line2');
+            
+            line1.style.width = e.pageX + 'px';
+            line1.style.top = e.pageY + 'px';
+            
+            line2.style.height = e.pageY + 'px';
+            line2.style.left = e.pageX + 'px';
         });
 
         document.querySelectorAll('a').forEach(link => {
             link.addEventListener('mouseover', function() {
-                document.getElementById('cursor').style.backgroundColor = '#1e90ff';
+                document.getElementById('cursor').style.backgroundColor = '#007acc';
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.getElementById('cursor').style.backgroundColor = '#ff7f50';
+                }
             });
             link.addEventListener('mouseout', function() {
                 document.getElementById('cursor').style.backgroundColor = 'transparent';
