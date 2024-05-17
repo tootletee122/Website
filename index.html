@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khris's Simple Hey Page</title>
+    <title>Khris's Hey Page</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            margin: 20px 0;
+        }
+        .links {
+            margin: 20px 0;
+        }
+        .about-me {
+            max-width: 600px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Hey</h1>
+    <div class="links">
+        <p><a href="https://www.youtube.com" target="_blank">YouTube</a></p>
+        <p><a href="https://www.amazon.com" target="_blank">Amazon</a></p>
+        <p><a href="https://www.microcenter.com" target="_blank">Micro Center</a></p>
+    </div>
+    <div class="ascii-art">
+        <pre>
+         /\_/\  
+        ( o.o ) 
+         > ^ <
+        </pre>
+    </div>
+    <div class="about-me">
+        <h2>About Me</h2>
+        <p>Hi, I'm Khris. I love coding and audio. Welcome to my simple website with a dark theme and some fun links!</p>
+    </div>
 </body>
 </html>
