@@ -256,3 +256,16 @@
 
         document.addEventListener('mouseout', function() {
             cursor.style
+        .transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
+        });
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animate();
+    </script>
+</body>
+</html>
