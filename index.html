@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Hey Page</title>
+    <title>Fancy Interactive Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #001f3f;
-            color: #00ccff;
+            background-color: #0f3057;
+            color: #f4d35e;
             font-family: 'Roboto', sans-serif;
             display: flex;
             flex-direction: column;
@@ -18,59 +18,54 @@
             margin: 0;
             overflow: hidden;
             text-align: center;
-            position: relative;
         }
 
         h1 {
             font-size: 3em;
             margin: 20px 0;
-            color: #00ccff;
+            color: #f4d35e;
             animation: fadeInDown 1s ease-in-out;
-            z-index: 2;
         }
 
         a {
-            color: #00ccff;
+            color: #f4d35e;
             text-decoration: none;
             font-weight: bold;
             display: inline-block;
             margin: 10px 20px;
             padding: 10px 20px;
-            border-radius: 5px;
-            background: #0077b6;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #f4d35e);
             transition: background 0.3s, color 0.3s;
-            z-index: 2;
         }
 
         a:hover {
-            background: #00ccff;
-            color: #001f3f;
+            background: linear-gradient(45deg, #f4d35e, #ff6b6b);
+            color: #0f3057;
         }
 
         .ascii-art {
             font-family: monospace;
             white-space: pre;
             margin: 20px 0;
-            color: #00b4d8;
+            color: #f4d35e;
             animation: fadeIn 2s ease-in-out;
-            z-index: 2;
         }
 
         .about-me {
             max-width: 600px;
             margin-top: 20px;
             padding: 20px;
-            background: rgba(0, 119, 182, 0.1);
-            border-radius: 10px;
-            color: #00b4d8;
+            background: rgba(244, 211, 94, 0.1);
+            border-radius: 20px;
+            color: #f4d35e;
             animation: fadeInUp 1.5s ease-in-out;
-            z-index: 2;
         }
 
         .cursor {
             width: 20px;
             height: 20px;
-            background: #00ccff;
+            background: #f4d35e;
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
@@ -80,35 +75,22 @@
             mix-blend-mode: difference;
         }
 
-        .ice {
+        .fancy-background {
             position: absolute;
             bottom: 0;
             left: 50%;
             width: 100%;
             height: 20vh;
-            background: linear-gradient(to top, rgba(0, 119, 182, 1), rgba(0, 119, 182, 0));
-            animation: ice 1s infinite alternate ease-in-out;
+            background: linear-gradient(to top, #ff6b6b, #f4d35e);
+            animation: fancyBackground 1s infinite alternate ease-in-out;
             transform: translateX(-50%);
-            z-index: 1;
-        }
-
-        .cracks {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://i.imgur.com/3BW5yBY.png') no-repeat center center;
-            background-size: cover;
-            opacity: 0.3;
-            z-index: 1;
         }
 
         canvas {
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 0;
+            z-index: -1;
         }
 
         @keyframes fadeIn {
@@ -126,14 +108,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes ice {
+        @keyframes fancyBackground {
             0% { height: 20vh; opacity: 0.8; }
             100% { height: 25vh; opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <h1>Hey</h1>
+    <h1>Welcome to the Fancy Page</h1>
     <div class="links">
         <a href="https://www.youtube.com" target="_blank">YouTube</a>
         <a href="https://www.amazon.com" target="_blank">Amazon</a>
@@ -154,8 +136,7 @@
         <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
     </div>
     <div class="cursor" id="cursor"></div>
-    <div class="ice"></div>
-    <div class="cracks"></div>
+    <div class="fancy-background"></div>
     <canvas id="canvas"></canvas>
     <script>
         const canvas = document.getElementById('canvas');
@@ -208,7 +189,7 @@
         Dot.prototype.draw = function() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#00ccff';
+            ctx.fillStyle = '#f4d35e';
             ctx.fill();
         }
 
@@ -223,7 +204,7 @@
                         ctx.beginPath();
                         ctx.moveTo(dots[i].x, dots[i].y);
                         ctx.lineTo(dots[j].x, dots[j].y);
-                        ctx.strokeStyle = `rgba(0, 204, 255, ${1 - distance / 150})`;
+                        ctx.strokeStyle = `rgba(244, 211, 94, ${1 - distance / 150})`;
                         ctx.stroke();
                     }
                 }
@@ -264,12 +245,12 @@
                 link.addEventListener('mouseover', function() {
                     cursor.style.width = '40px';
                     cursor.style.height = '40px';
-                    cursor.style.backgroundColor = '#00ccff';
+                    cursor.style.backgroundColor = '#0f3057';
                 });
                 link.addEventListener('mouseout', function() {
                     cursor.style.width = '20px';
                     cursor.style.height = '20px';
-                    cursor.style.backgroundColor = '#00b4d8';
+                    cursor.style.backgroundColor = '#f4d35e';
                 });
             });
         });
