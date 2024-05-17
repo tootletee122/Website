@@ -19,19 +19,19 @@
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            cursor: none;
             position: relative;
-            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
         }
         h1 {
             font-size: 3em;
             margin: 20px 0;
-            animation: fadeInDown 1s ease-in-out;
+            animation: fadeInDown 1s ease-in-out, float 3s infinite ease-in-out;
         }
         a {
             color: #007acc;
             text-decoration: none;
             font-weight: bold;
+            animation: float 3s infinite ease-in-out;
         }
         a:hover {
             text-decoration: underline;
@@ -40,19 +40,21 @@
             font-family: monospace;
             white-space: pre;
             margin: 20px 0;
-            animation: fadeIn 2s ease-in-out;
+            animation: fadeIn 2s ease-in-out, float 3s infinite ease-in-out;
         }
         .links {
             margin: 20px 0;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            animation: float 3s infinite ease-in-out;
         }
         .links a {
             background: #007acc;
             padding: 10px 20px;
             border-radius: 5px;
             transition: background 0.3s;
+            animation: float 3s infinite ease-in-out;
         }
         .links a:hover {
             background: #005f99;
@@ -63,8 +65,7 @@
             padding: 20px;
             background: #e0e0e0;
             border-radius: 10px;
-            animation: fadeInUp 1.5s ease-in-out;
-            transition: background 0.3s, color 0.3s;
+            animation: fadeInUp 1.5s ease-in-out, float 3s infinite ease-in-out;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -78,30 +79,19 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
         .cursor {
             width: 20px;
             height: 20px;
-            border: 2px solid #007acc;
+            background: #007acc;
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
             pointer-events: none;
-            transition: transform 0.1s, background-color 0.2s;
-        }
-        .line {
-            position: absolute;
-            background: #007acc;
-            height: 2px;
-            width: 0;
-            pointer-events: none;
-        }
-        .dot {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #007acc;
-            border-radius: 50%;
-            pointer-events: none;
+            transition: transform 0.1s, width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -123,12 +113,6 @@
                 color: #e0e0e0;
             }
             .cursor {
-                border-color: #ff7f50;
-            }
-            .line {
-                background: #ff7f50;
-            }
-            .dot {
                 background: #ff7f50;
             }
         }
@@ -153,56 +137,34 @@
         <p>Hi, I'm Khris. I love coding and audio. Welcome to my simple website with a dark theme and some fun links!</p>
     </div>
     <div class="cursor" id="cursor"></div>
-    <div class="dot" id="dot1" style="top: 20px; left: 20px;"></div>
-    <div class="dot" id="dot2" style="top: 20px; right: 20px;"></div>
-    <div class="dot" id="dot3" style="bottom: 20px; left: 20px;"></div>
-    <div class="dot" id="dot4" style="bottom: 20px; right: 20px;"></div>
-    <div class="line" id="line1"></div>
-    <div class="line" id="line2"></div>
-    <div class="line" id="line3"></div>
-    <div class="line" id="line4"></div>
     <script>
         document.addEventListener('mousemove', function(e) {
             var cursor = document.getElementById('cursor');
             cursor.style.left = e.pageX + 'px';
             cursor.style.top = e.pageY + 'px';
-            
-            var dot1 = document.getElementById('dot1');
-            var dot2 = document.getElementById('dot2');
-            var dot3 = document.getElementById('dot3');
-            var dot4 = document.getElementById('dot4');
-            
-            var line1 = document.getElementById('line1');
-            var line2 = document.getElementById('line2');
-            var line3 = document.getElementById('line3');
-            var line4 = document.getElementById('line4');
-            
-            var updateLine = function(line, dotX, dotY) {
-                var cursorX = e.pageX;
-                var cursorY = e.pageY;
-                var length = Math.sqrt((cursorX - dotX) * (cursorX - dotX) + (cursorY - dotY) * (cursorY - dotY));
-                var angle = Math.atan2(cursorY - dotY, cursorX - dotX) * 180 / Math.PI;
-                
-                line.style.width = length + 'px';
-                line.style.transform = 'rotate(' + angle + 'deg)';
-                line.style.left = dotX + 'px';
-                line.style.top = dotY + 'px';
-            };
-            
-            updateLine(line1, dot1.offsetLeft + 5, dot1.offsetTop + 5);
-            updateLine(line2, dot2.offsetLeft + 5, dot2.offsetTop + 5);
-            updateLine(line3, dot3.offsetLeft + 5, dot3.offsetTop + 5);
-            updateLine(line4, dot4.offsetLeft + 5, dot4.offsetTop + 5);
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            cursor.style.opacity = '0.7';
+        });
+
+        document.addEventListener('mouseout', function() {
+            var cursor = document.getElementById('cursor');
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
         });
 
         document.querySelectorAll('a').forEach(link => {
             link.addEventListener('mouseover', function() {
-                document.getElementById('cursor').style.backgroundColor = '#007acc';
+                document.getElementById('cursor').style.width = '40px';
+                document.getElementById('cursor').style.height = '40px';
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     document.getElementById('cursor').style.backgroundColor = '#ff7f50';
+                } else {
+                    document.getElementById('cursor').style.backgroundColor = '#007acc';
                 }
             });
             link.addEventListener('mouseout', function() {
+                document.getElementById('cursor').style.width = '20px';
+                document.getElementById('cursor').style.height = '20px';
                 document.getElementById('cursor').style.backgroundColor = 'transparent';
             });
         });
