@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #1a1a1a;
+            background-color: #000;
             color: #ffcc00;
             font-family: 'Roboto', sans-serif;
             display: flex;
@@ -85,6 +85,7 @@
             pointer-events: none;
             transition: transform 0.1s, width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
             z-index: 99999;
+            mix-blend-mode: difference;
         }
 
         .fire {
@@ -155,7 +156,7 @@
         const ctx = canvas.getContext('2d');
         const dots = [];
         const cursor = document.getElementById('cursor');
-        const numDots = 50;
+        const numDots = 30;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -192,6 +193,7 @@
             ctx.fill();
         }
 
+       
         function drawLines() {
             for (let i = 0; i < dots.length; i++) {
                 for (let j = i + 1; j < dots.length; j++) {
@@ -255,8 +257,7 @@
         });
 
         document.addEventListener('mouseout', function() {
-            cursor.style
-        .transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
             cursor.style.opacity = '1';
         });
 
