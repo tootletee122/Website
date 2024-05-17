@@ -155,7 +155,7 @@
         const ctx = canvas.getContext('2d');
         const dots = [];
         const cursor = document.getElementById('cursor');
-        const numDots = 100;
+        const numDots = 50;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -163,8 +163,8 @@
         function Dot(x, y) {
             this.x = x;
             this.y = y;
-            this.vx = Math.random() * 2 - 1;
-            this.vy = Math.random() * 2 - 1;
+            this.vx = (Math.random() * 0.5 - 0.25);
+            this.vy = (Math.random() * 0.5 - 0.25);
             this.radius = 3;
         }
 
@@ -172,16 +172,16 @@
             this.x += this.vx;
             this.y += this.vy;
 
-            if (this.x > canvas.width || this.x < 0) this.vx *= -1;
-            if (this.y > canvas.height || this.y < 0) this.vy *= -1;
+            if (this.x > canvas.width || this.x < 0) this.x = (this.x + canvas.width) % canvas.width;
+            if (this.y > canvas.height || this.y < 0) this.y = (this.y + canvas.height) % canvas.height;
 
             const dx = this.x - mouseX;
             const dy = this.y - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < 100) {
-                this.vx += dx * -0.01;
-                this.vy += dy * -0.01;
+                this.vx += dx * -0.001;
+                this.vy += dy * -0.001;
             }
         }
 
@@ -199,11 +199,11 @@
                     const dy = dots[i].y - dots[j].y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 100) {
+                    if (distance < 150) {
                         ctx.beginPath();
                         ctx.moveTo(dots[i].x, dots[i].y);
                         ctx.lineTo(dots[j].x, dots[j].y);
-                        ctx.strokeStyle = `rgba(255, 69, 0, ${1 - distance / 100})`;
+                        ctx.strokeStyle = `rgba(255, 69, 0, ${1 - distance / 150})`;
                         ctx.stroke();
                     }
                 }
@@ -255,16 +255,4 @@
         });
 
         document.addEventListener('mouseout', function() {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursor.style.opacity = '1';
-        });
-
-        window.addEventListener('resize', function() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        animate();
-    </script>
-</body>
-</html>
+            cursor.style
