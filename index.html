@@ -4,21 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khris's Hey Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #121212;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            cursor: none;
+        }
+        h1 {
+            font-size: 3em;
+            margin: 20px 0;
+            animation: fadeInDown 1s ease-in-out;
         }
         a {
             color: #1e90ff;
             text-decoration: none;
+            font-weight: bold;
         }
         a:hover {
             text-decoration: underline;
@@ -27,34 +38,89 @@
             font-family: monospace;
             white-space: pre;
             margin: 20px 0;
+            animation: fadeIn 2s ease-in-out;
         }
         .links {
             margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .links a {
+            background: #1e90ff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .links a:hover {
+            background: #0f5a8a;
         }
         .about-me {
             max-width: 600px;
-            text-align: center;
             margin-top: 20px;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #1e90ff;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: transform 0.1s, background-color 0.2s;
         }
     </style>
 </head>
 <body>
     <h1>Hey</h1>
     <div class="links">
-        <p><a href="https://www.youtube.com" target="_blank">YouTube</a></p>
-        <p><a href="https://www.amazon.com" target="_blank">Amazon</a></p>
-        <p><a href="https://www.microcenter.com" target="_blank">Micro Center</a></p>
+        <a href="https://www.youtube.com" target="_blank">YouTube</a>
+        <a href="https://www.amazon.com" target="_blank">Amazon</a>
+        <a href="https://www.microcenter.com" target="_blank">Micro Center</a>
     </div>
     <div class="ascii-art">
         <pre>
-         /\_/\  
-        ( o.o ) 
-         > ^ <
+ /\_/\  
+( o.o ) 
+ > ^ <
         </pre>
     </div>
     <div class="about-me">
         <h2>About Me</h2>
         <p>Hi, I'm Khris. I love coding and audio. Welcome to my simple website with a dark theme and some fun links!</p>
     </div>
+    <div class="cursor" id="cursor"></div>
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            var cursor = document.getElementById('cursor');
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+        });
+
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseover', function() {
+                document.getElementById('cursor').style.backgroundColor = '#1e90ff';
+            });
+            link.addEventListener('mouseout', function() {
+                document.getElementById('cursor').style.backgroundColor = 'transparent';
+            });
+        });
+    </script>
 </body>
 </html>
