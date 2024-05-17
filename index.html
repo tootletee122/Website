@@ -20,53 +20,87 @@
             text-align: center;
         }
 
-        .fade-out {
-            animation: fadeOut 1s ease forwards;
+        h1 {
+            font-size: 3em;
+            margin: 20px 0;
+            color: #f4d35e;
+            animation: fadeInDown 1s ease-in-out;
         }
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
+        a {
+            color: #f4d35e;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #f4d35e);
+            transition: background 0.3s, color 0.3s;
         }
 
-        .minigame-container {
-            display: none;
+        a:hover {
+            background: linear-gradient(45deg, #f4d35e, #ff6b6b);
+            color: #0f3057;
+        }
+
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            margin: 20px 0;
+            color: #f4d35e;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .about-me {
+            max-width: 600px;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(244, 211, 94, 0.1);
+            border-radius: 20px;
+            color: #f4d35e;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .cursor {
+            width: 20px;
+            height: 20px;
+            background: #f4d35e;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: transform 0.1s, width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
+            z-index: 99999;
+            mix-blend-mode: difference;
         }
 
         canvas {
-            background-color: #ffffff;
-            border: 2px solid #f4d35e;
-            border-radius: 10px;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 10px;
-            background-color: #f4d35e;
-            color: #0f3057;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        button:hover {
-            background-color: #0f3057;
-            color: #f4d35e;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes newAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
         }
     </style>
 </head>
@@ -93,53 +127,126 @@
     </div>
     <div class="cursor" id="cursor"></div>
     <canvas id="canvas"></canvas>
-    <button id="minigameButton">Play Minigame</button>
-    <div class="minigame-container" id="minigameContainer">
-        <!-- Minigame content goes here -->
-        <canvas id="minigameCanvas"></canvas>
-    </div>
-
     <script>
-        const minigameButton = document.getElementById('minigameButton');
-        const minigameContainer = document.getElementById('minigameContainer');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const dots = [];
+        const cursor = document.getElementById('cursor');
+        const numDots = 150;
+        const dampingFactor = 0.982;
+        const attractionRadius = 235;
+        let attractDots = true;
 
-        minigameButton.addEventListener('click', function() {
-            fadeOutAndShowMinigame();
-        });
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        function fadeOutAndShowMinigame() {
-            const elementsToFadeOut = document.querySelectorAll('.fade-out');
+        function Dot(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() * 2 - 1);
+            this.vy = (Math.random() * 2 - 1);
+            this.radius = 3;
+        }
 
-            elementsToFadeOut.forEach(element => {
-                element.style.animationPlayState = 'running';
+        Dot.prototype.update = function() {
+            if (attractDots) {
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < attractionRadius) {
+                    this.vx -= dx * 0.001;
+                    this.vy -= dy * 0.001;
+                }
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+
+            this.vx *= dampingFactor;
+            this.vy *= dampingFactor;
+
+            if (Math.abs(this.vx) < 0.1 && Math.abs(this.vy) < 0.1) {
+                this.vx = 0;
+                this.vy = 0;
+            }
+
+            if (this.x > canvas.width || this.x < 0) this.x = (this.x + canvas.width) % canvas.width;
+            if (this.y > canvas.height || this.y < 0) this.y = (this.y + canvas.height) % canvas.height;
+        }
+
+        Dot.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#f4d35e';
+            ctx.fill();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            dots.forEach(dot => {
+                dot.update();
+                dot.draw();
             });
 
-            setTimeout(function() {
-                elementsToFadeOut.forEach(element => {
-                    element.style.display = 'none';
+            requestAnimationFrame(animate);
+        }
+
+        for (let i = 0; i < numDots; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            dots.push(new Dot(x, y));
+        }
+
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            cursor.style.opacity = '0.7';
+
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('mouseover', function() {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.backgroundColor = '#0f3057';
                 });
-                showMinigame();
-            }, 1000);
-        }
+                link.addEventListener('mouseout', function() {
+                    cursor.style.width = '20px';
+                    cursor.style.height = '20px';
+                    cursor.style.backgroundColor = '#f4d35e';
+                });
+            });
+        });
 
-        function showMinigame() {
-            minigameContainer.style.display = 'block';
-            minigameContainer.style.animation = 'fadeIn 1s ease forwards';
-            // Call function to start the minigame here
-            startMinigame();
-        }
+        document.addEventListener('mouseout', function() {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
+        });
 
-        function startMinigame() {
-            const minigameCanvas = document.getElementById('minigameCanvas');
-            const minigameCtx = minigameCanvas.getContext('2d');
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
 
-            minigameCanvas.width = window.innerWidth;
-            minigameCanvas.height = window.innerHeight;
+        document.addEventListener('mousedown', function(event) {
+            if (event.button === 0) {
+                attractDots = true;
+            }
+        });
 
-            // Example minigame code
-            minigameCtx.fillStyle = '#ff0000';
-            minigameCtx.fillRect(50, 50, 100, 100);
-        }
+        document.addEventListener('mouseup', function(event) {
+            if (event.button === 0) {
+                attractDots = false;
+            }
+        });
+
+        animate();
     </script>
 </body>
 </html>
