@@ -157,7 +157,7 @@
         const dots = [];
         const cursor = document.getElementById('cursor');
         const numDots = 30;
-        const dampingFactor = -0.95; // Adjust the damping factor for desired smoothness
+        const dampingFactor = 0.95; // Adjust the damping factor for desired smoothness
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -165,8 +165,8 @@
         function Dot(x, y) {
             this.x = x;
             this.y = y;
-            this.vx = (Math.random() * 2 - 1);
-            this.vy = (Math.random() * 2 - 1);
+            this.vx = (Math.random() * 20 - 10);
+            this.vy = (Math.random() * 20 - 10);
             this.radius = 3;
         }
 
