@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #0f3057;
-            color: #f4d35e;
+            background-color: var(--background-color, #0f3057);
+            color: var(--text-color, #f4d35e);
             font-family: 'Roboto', sans-serif;
             display: flex;
             flex-direction: column;
@@ -18,17 +18,18 @@
             margin: 0;
             overflow: hidden;
             text-align: center;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
             font-size: 3em;
             margin: 20px 0;
-            color: #f4d35e;
+            color: var(--text-color, #f4d35e);
             animation: fadeInDown 1s ease-in-out;
         }
 
         a {
-            color: #f4d35e;
+            color: var(--text-color, #f4d35e);
             text-decoration: none;
             font-weight: bold;
             display: inline-block;
@@ -40,16 +41,20 @@
             opacity: 0.9;
         }
 
-        a:hover {
+        a:hover, a:focus {
             background: linear-gradient(45deg, rgba(244, 211, 94, 0.8), rgba(255, 107, 107, 0.8));
-            color: #0f3057;
+            color: var(--background-color, #0f3057);
+        }
+
+        a:focus {
+            outline: 2px solid var(--text-color, #f4d35e);
         }
 
         .ascii-art {
             font-family: monospace;
             white-space: pre;
             margin: 20px 0;
-            color: #f4d35e;
+            color: var(--text-color, #f4d35e);
             animation: fadeIn 2s ease-in-out;
         }
 
@@ -59,14 +64,14 @@
             padding: 20px;
             background: rgba(244, 211, 94, 0.1);
             border-radius: 20px;
-            color: #f4d35e;
+            color: var(--text-color, #f4d35e);
             animation: fadeInUp 1.5s ease-in-out;
         }
 
         .cursor {
             width: 20px;
             height: 20px;
-            background: #f4d35e;
+            background: var(--text-color, #f4d35e);
             border-radius: 50%;
             position: absolute;
             transform: translate(-50%, -50%);
@@ -81,6 +86,68 @@
             top: 0;
             left: 0;
             z-index: -1;
+        }
+
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--text-color, #f4d35e);
+            border: none;
+            color: var(--background-color, #0f3057);
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .dark-mode-toggle:focus {
+            outline: 2px solid var(--text-color, #f4d35e);
+        }
+
+        .contact-form {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(244, 211, 94, 0.1);
+            border-radius: 20px;
+            color: var(--text-color, #f4d35e);
+            animation: fadeInUp 1.5s ease-in-out;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--text-color, #f4d35e);
+            border-radius: 5px;
+            background: transparent;
+            color: var(--text-color, #f4d35e);
+        }
+
+        .contact-form button {
+            background: var(--text-color, #f4d35e);
+            border: none;
+            color: var(--background-color, #0f3057);
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .contact-form button:hover, .contact-form button:focus {
+            background: var(--background-color, #0f3057);
+            color: var(--text-color, #f4d35e);
+        }
+
+        .contact-form button:focus {
+            outline: 2px solid var(--text-color, #f4d35e);
         }
 
         @keyframes fadeIn {
@@ -107,6 +174,7 @@
 </head>
 <body>
     <h1>Hey</h1>
+    <button class="dark-mode-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
     <div class="links">
         <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
         <a href="https://www.amazon.com" target="_blank" aria-label="Amazon">Amazon</a>
@@ -125,6 +193,18 @@
         <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
         <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
         <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
+    </div>
+    <div class="contact-form" aria-labelledby="contact-form-title">
+        <h2 id="contact-form-title">Contact Me</h2>
+        <form>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <button type="submit">Send</button>
+        </form>
     </div>
     <div class="cursor" id="cursor"></div>
     <canvas id="canvas"></canvas>
@@ -179,7 +259,7 @@
         Dot.prototype.draw = function() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#f4d35e';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
             ctx.fill();
         }
 
@@ -215,12 +295,12 @@
                 link.addEventListener('mouseover', function() {
                     cursor.style.width = '40px';
                     cursor.style.height = '40px';
-                    cursor.style.backgroundColor = '#0f3057';
+                    cursor.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
                 });
                 link.addEventListener('mouseout', function() {
                     cursor.style.width = '20px';
                     cursor.style.height = '20px';
-                    cursor.style.backgroundColor = '#f4d35e';
+                    cursor.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
                 });
             });
         });
@@ -247,7 +327,17 @@
             }
         });
 
+        function toggleDarkMode() {
+            if (document.body.style.getPropertyValue('--background-color') === 'white') {
+                document.body.style.setProperty('--background-color', '#0f3057');
+                document.body.style.setProperty('--text-color', '#f4d35e');
+            } else {
+                document.body.style.setProperty('--background-color', 'white');
+                document.body.style.setProperty('--text-color', '#0f3057');
+            }
+        }
+
         animate();
     </script>
 </body>
-</html>\
+</html>
