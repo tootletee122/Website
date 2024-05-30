@@ -9,7 +9,6 @@
         :root {
             --background-color: #0f3057;
             --text-color: #f4d35e;
-            --accent-color: #ff6b6b;
         }
 
         body {
@@ -20,11 +19,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
             text-align: center;
             transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
             position: relative;
         }
 
@@ -43,13 +42,13 @@
             margin: 10px 20px;
             padding: 10px 20px;
             border-radius: 50px;
-            background: linear-gradient(45deg, var(--accent-color), rgba(244, 211, 94, 0.8));
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.8), rgba(244, 211, 94, 0.8));
             transition: background 0.3s, color 0.3s, opacity 0.3s;
             opacity: 0.9;
         }
 
         a:hover, a:focus {
-            background: linear-gradient(45deg, rgba(244, 211, 94, 0.8), var(--accent-color));
+            background: linear-gradient(45deg, rgba(244, 211, 94, 0.8), rgba(255, 107, 107, 0.8));
             color: var(--background-color);
         }
 
@@ -66,7 +65,7 @@
         }
 
         .about-me {
-            max-width: 800px;
+            max-width: 600px;
             margin-top: 20px;
             padding: 20px;
             background: rgba(244, 211, 94, 0.1);
@@ -96,10 +95,10 @@
         }
 
         .dark-mode-toggle {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 20px;
-            background: var(--accent-color);
+            background: var(--text-color);
             border: none;
             color: var(--background-color);
             padding: 10px 20px;
@@ -110,46 +109,6 @@
 
         .dark-mode-toggle:focus {
             outline: 2px solid var(--text-color);
-        }
-
-        #back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--accent-color);
-            color: var(--background-color);
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: none;
-            cursor: pointer;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        #back-to-top:hover {
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        .social-icons {
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            display: inline-block;
-            margin: 0 10px;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            color: var(--text-color);
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .social-icons a:hover {
-            background-color: var(--text-color);
-            color: var(--background-color);
         }
 
         @keyframes fadeIn {
@@ -171,6 +130,23 @@
             0% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0); }
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--text-color);
+            color: var(--background-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            cursor: pointer;
+        }
+
+        #back-to-top:hover {
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
     </style>
 </head>
@@ -195,12 +171,6 @@
         <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
         <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
         <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
-    </div>
-    <div class="social-icons">
-        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
     </div>
     <div class="cursor" id="cursor"></div>
     <canvas id="canvas"></canvas>
