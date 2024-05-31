@@ -7,9 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #0f3057;
-            --text-color: #f4d35e;
-            --overlay-color: rgba(0, 0, 0, 0.5);
+            --background-color: #1b1b2f;
+            --text-color: #e43f5a;
+            --overlay-color: rgba(27, 27, 47, 0.7);
+            --primary-color: #162447;
+            --secondary-color: #1f4068;
+            --accent-color: #e43f5a;
         }
 
         body {
@@ -25,7 +28,7 @@
         header {
             position: sticky;
             top: 0;
-            background-color: var(--background-color);
+            background-color: var(--primary-color);
             padding: 10px 0;
             z-index: 1000;
         }
@@ -46,8 +49,8 @@
         }
 
         nav a:hover, nav a:focus {
-            background-color: var(--text-color);
-            color: var(--background-color);
+            background-color: var(--accent-color);
+            color: var(--primary-color);
         }
 
         .hero {
@@ -91,14 +94,14 @@
             margin: 10px 20px;
             padding: 10px 20px;
             border-radius: 50px;
-            background: linear-gradient(45deg, rgba(255, 107, 107, 0.8), rgba(244, 211, 94, 0.8));
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             transition: background 0.3s, color 0.3s, opacity 0.3s;
             opacity: 0.9;
         }
 
         a:hover, a:focus {
-            background: linear-gradient(45deg, rgba(244, 211, 94, 0.8), rgba(255, 107, 107, 0.8));
-            color: var(--background-color);
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: var(--accent-color);
         }
 
         a:focus {
@@ -114,7 +117,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background: rgba(244, 211, 94, 0.1);
+            background: rgba(228, 63, 90, 0.1);
             border-radius: 20px;
         }
 
@@ -156,7 +159,7 @@
         }
 
         footer {
-            background-color: var(--background-color);
+            background-color: var(--primary-color);
             padding: 20px;
             text-align: center;
         }
@@ -176,12 +179,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes newAnimation {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0); }
-        }
-
         #back-to-top {
             position: fixed;
             bottom: 20px;
@@ -198,16 +195,27 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
+
+        .camera-effect {
+            filter: brightness(0.9) contrast(1.2) saturate(1.5) hue-rotate(10deg);
+            animation: cameraShake 0.5s infinite;
+        }
+
+        @keyframes cameraShake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-5px, 5px); }
+            50% { transform: translate(5px, -5px); }
+            75% { transform: translate(-5px, -5px); }
+        }
     </style>
     <meta name="description" content="Welcome to my personal website. Join me on a journey through creativity and innovation!">
     <meta name="keywords" content="personal website, coding, music production, technology, gadgets">
 </head>
-<body>
+<body class="camera-effect">
     <header>
         <nav>
             <a href="#home">Home</a>
             <a href="#about">About Me</a>
-            <a href="#contact">Contact</a>
         </nav>
     </header>
 
@@ -231,11 +239,6 @@
             <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
             <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
         </div>
-    </section>
-
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>You can reach me via email at <a href="mailto:khris@example.com">khris@example.com</a></p>
     </section>
 
     <div class="cursor" id="cursor"></div>
@@ -370,11 +373,11 @@
 
         function toggleDarkMode() {
             if (document.body.style.getPropertyValue('--background-color') === 'white') {
-                document.body.style.setProperty('--background-color', '#0f3057');
-                document.body.style.setProperty('--text-color', '#f4d35e');
+                document.body.style.setProperty('--background-color', '#1b1b2f');
+                document.body.style.setProperty('--text-color', '#e43f5a');
             } else {
                 document.body.style.setProperty('--background-color', 'white');
-                document.body.style.setProperty('--text-color', '#0f3057');
+                document.body.style.setProperty('--text-color', '#1b1b2f');
             }
         }
 
