@@ -9,29 +9,78 @@
         :root {
             --background-color: #0f3057;
             --text-color: #f4d35e;
+            --overlay-color: rgba(0, 0, 0, 0.5);
         }
 
         body {
             background-color: var(--background-color);
             color: var(--text-color);
             font-family: 'Roboto', sans-serif;
+            margin: 0;
+            text-align: center;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--background-color);
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        nav a:hover, nav a:focus {
+            background-color: var(--text-color);
+            color: var(--background-color);
+        }
+
+        .hero {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-            transition: background-color 0.3s, color 0.3s;
-            scroll-behavior: smooth;
+            background: url('https://example.com/background.jpg') no-repeat center center/cover;
             position: relative;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay-color);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h1 {
             font-size: 3em;
             margin: 20px 0;
-            color: var(--text-color);
-            animation: fadeInDown 1s ease-in-out;
         }
 
         a {
@@ -56,22 +105,17 @@
             outline: 2px solid var(--text-color);
         }
 
-        .ascii-art {
-            font-family: monospace;
-            white-space: pre;
-            margin: 20px 0;
-            color: var(--text-color);
-            animation: fadeIn 2s ease-in-out;
+        section {
+            padding: 60px 20px;
+            animation: fadeInUp 1s ease-in-out;
         }
 
         .about-me {
             max-width: 600px;
-            margin-top: 20px;
+            margin: 0 auto;
             padding: 20px;
             background: rgba(244, 211, 94, 0.1);
             border-radius: 20px;
-            color: var(--text-color);
-            animation: fadeInUp 1.5s ease-in-out;
         }
 
         .cursor {
@@ -111,14 +155,20 @@
             outline: 2px solid var(--text-color);
         }
 
+        footer {
+            background-color: var(--background-color);
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--text-color);
+            margin: 0 10px;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUp {
@@ -149,32 +199,55 @@
             color: var(--text-color);
         }
     </style>
+    <meta name="description" content="Welcome to my personal website. Join me on a journey through creativity and innovation!">
+    <meta name="keywords" content="personal website, coding, music production, technology, gadgets">
 </head>
 <body>
-    <h1>Hey</h1>
-    <button class="dark-mode-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-    <div class="links">
-        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
-        <a href="https://www.amazon.com" target="_blank" aria-label="Amazon">Amazon</a>
-        <a href="https://www.microcenter.com" target="_blank" aria-label="Micro Center">Micro Center</a>
-    </div>
-    <div class="ascii-art">
-        <pre>
- /\_/\  
-( o.o ) 
- > ^ <
-        </pre>
-    </div>
-    <div class="about-me">
-        <h2>About Me</h2>
-        <p>Welcome to my world of creativity and innovation! I'm Khris, an enthusiastic coder and audio enthusiast.</p>
-        <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
-        <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
-        <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
-    </div>
+    <header>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About Me</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Hey</h1>
+            <button class="dark-mode-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <div class="links">
+                <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
+                <a href="https://www.amazon.com" target="_blank" aria-label="Amazon">Amazon</a>
+                <a href="https://www.microcenter.com" target="_blank" aria-label="Micro Center">Micro Center</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about-me">
+            <h2>About Me</h2>
+            <p>Welcome to my world of creativity and innovation! I'm Khris, an enthusiastic coder and audio enthusiast.</p>
+            <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
+            <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
+            <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>You can reach me via email at <a href="mailto:khris@example.com">khris@example.com</a></p>
+    </section>
+
     <div class="cursor" id="cursor"></div>
     <canvas id="canvas"></canvas>
     <button id="back-to-top" onclick="scrollToTop()">Back to Top</button>
+
+    <footer>
+        <p>&copy; 2023 Khris. All rights reserved.</p>
+        <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
+        <a href="https://www.amazon.com" target="_blank" aria-label="Amazon">Amazon</a>
+        <a href="https://www.microcenter.com" target="_blank" aria-label="Micro Center">Micro Center</a>
+    </footer>
 
     <script>
         const canvas = document.getElementById('canvas');
