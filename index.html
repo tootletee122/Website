@@ -221,47 +221,6 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
-
-        /* Additional CSS styles for enhancements */
-
-        /* Responsive Design */
-        @media screen and (max-width: 768px) {
-            /* Adjust styles for smaller screens */
-            /* Example: Adjust padding, font sizes, or layout */
-            .hero {
-                height: 80vh;
-            }
-        }
-
-        /* Hover Effects */
-        .btn:hover {
-            transform: translateY(-3px); /* Example: Apply a slight lift */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example: Add a subtle shadow */
-        }
-
-        /* Content Animation */
-        .animated {
-            opacity: 0; /* Initially hide the element */
-            transform: translateY(20px); /* Example: Slide element from bottom */
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Apply smooth transition */
-        }
-
-        /* Smooth Section Transitions */
-        section {
-            transition: transform 0.5s ease; /* Apply smooth transition */
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
     </style>
 </head>
 <body>
@@ -286,7 +245,7 @@
         </section>
 
         <section id="about">
-            <article class="about-me animated">
+            <article class="about-me">
                 <h2>About Me</h2>
                 <p>Welcome to my world of creativity and innovation! I'm Khris, an enthusiastic coder and audio enthusiast.</p>
                 <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
@@ -309,46 +268,167 @@
     </footer>
 
     <script>
-        // JavaScript for existing functionalities and enhancements
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const dots = [];
+        const cursor = document.getElementById('cursor');
+        const light = document.getElementById('light');
+        const numDots = 150;
+        const dampingFactor = 0.982;
+        const attractionRadius = 235;
+        const stretchRadius = 150;
+        let attractDots = true;
 
-        // Content Animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const animatedElements = document.querySelectorAll('.animated');
-            
-            animatedElements.forEach(function(element) {
-                setTimeout(function() {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, 200); // Adjust delay as needed
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function Dot(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() * 2 - 1);
+            this.vy = (Math.random() * 2 - 1);
+            this.radius = 3;
+        }
+
+        Dot.prototype.update = function() {
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < attractionRadius) {
+                this.vx -= dx * 0.001;
+                this.vy -= dy * 0.001;
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+
+            this.vx *= dampingFactor;
+            this.vy *= dampingFactor;
+
+            if (Math.abs(this.vx) < 0.1 && Math.abs(this.vy) < 0.1) {
+                this.vx = 0;
+                this.vy = 0;
+            }
+
+            if (this.x > canvas.width || this.x < 0) this.x = (this.x + canvas.width) % canvas.width;
+            if (this.y > canvas.height || this.y < 0) this.y = (this.y + canvas.height) % canvas.height;
+        }
+
+        Dot.prototype.draw = function() {
+            const dx = this.x - light.offsetLeft - light.offsetWidth / 2;
+            const dy = this.y - light.offsetTop - light.offsetHeight / 2;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < light.offsetWidth / 2) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowColor = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowBlur = 10;
+                ctx.fill();
+            }
+        }
+
+        Dot.prototype.drawLine = function() {
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < stretchRadius) {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(mouseX, mouseY);
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+                ctx.stroke();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            dots.forEach(dot => {
+                dot.update();
+                dot.draw();
+                dot.drawLine();
             });
+
+            requestAnimationFrame(animate);
+        }
+
+        for (let i = 0; i < numDots; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            dots.push(new Dot(x, y));
+        }
+
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            cursor.style.opacity = '0.7';
+
+            light.style.left = e.pageX - light.offsetWidth / 2 + 'px';
+            light.style.top = e.pageY - light.offsetHeight / 2 + 'px';
+            light.style.transform = 'scale(1.5)';
         });
 
-        // Smooth Section Transitions
-        document.querySelectorAll('nav a').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    const offsetTop = targetSection.offsetTop;
-                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-                }
-            });
+        document.addEventListener('mouseout', function() {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
         });
 
-        // Scroll Down Button
-        const scrollDownBtn = document.getElementById('scroll-down-btn');
-        if (scrollDownBtn) {
-            scrollDownBtn.addEventListener('click', function() {
-                const aboutSection = document.getElementById('about');
-                if (aboutSection) {
-                    const offsetTop = aboutSection.offsetTop;
-                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-                }
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        document.addEventListener('mousedown', function(event) {
+            if (event.button === 0) {
+                attractDots = true;
+            }
+        });
+
+        document.addEventListener('mouseup', function(event) {
+            if (event.button === 0) {
+                attractDots = false;
+            }
+        });
+
+        function toggleDarkMode() {
+            if (document.body.style.getPropertyValue('--background-color') === 'white') {
+                document.body.style.setProperty('--background-color', '#1b1b2f');
+                document.body.style.setProperty('--text-color', '#e43f5a');
+            } else {
+                document.body.style.setProperty('--background-color', 'white');
+                document.body.style.setProperty('--text-color', '#1b1b2f');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         }
 
-        // Additional JavaScript for existing functionalities and enhancements
+        function handleScroll() {
+            const backToTopButton = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        animate();
     </script>
 </body>
 </html>
