@@ -13,12 +13,12 @@
     <meta property="og:url" content="https://example.com">
     <style>
         :root {
-            --background-color: #1a1a1a; /* Dark gray */
-            --text-color: #dddddd; /* Light gray */
-            --overlay-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
-            --primary-color: #262626; /* Darker gray */
-            --secondary-color: #1f4068; /* Dark blue */
-            --accent-color: #42a5f5; /* Light blue */
+            --background-color: #1b1b2f; /* Dark background */
+            --text-color: #e43f5a; /* Reddish text */
+            --overlay-color: rgba(27, 27, 47, 0.7);
+            --primary-color: #162447;
+            --secondary-color: #1f4068;
+            --accent-color: #e43f5a;
             --dot-color: #ffffff; /* White dots */
             --dot-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Dot shadow */
         }
@@ -139,23 +139,25 @@
             position: absolute;
             transform: translate(-50%, -50%);
             pointer-events: none;
-            transition: transform 
-            0.1s, width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
+            transition: transform 0.1s, width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
             z-index: 99999;
             mix-blend-mode: difference;
         }
 
         .light {
-            width: 100px;
-            height: 100px;
-            background-color: var(--accent-color);
-            border-radius: 50%;
             position: absolute;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 200px; /* Adjust size of the light */
+            height: 200px; /* Adjust size of the light */
+            background-color: var(--accent-color); /* Theme color */
+            border-radius: 50%;
+            filter: blur(30px); /* Adjust blur intensity */
             pointer-events: none;
-            z-index: 9999;
-            opacity: 0.5;
-            backdrop-filter: blur(20px); /* Blurred light effect */
+            z-index: -1; /* Place under other elements */
+            transition: transform 0.1s ease-out;
+            transform-origin: center;
+            opacity: 0.6; /* Adjust opacity */
         }
 
         canvas {
@@ -314,6 +316,21 @@
         }
 
         Dot.prototype.draw = function() {
+            const dx = this.x - light.offsetLeft - light.offsetWidth / 2;
+            const dy = this.y - light.offsetTop - light.offsetHeight / 2;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < light.offsetWidth / 2) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowColor = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowBlur = 10;
+                ctx.fill();
+            }
+        }
+
+        Dot.prototype.drawLine = function() {
             const dx = this.x - mouseX;
             const dy = this.y - mouseY;
             const distance = Math.sqrt(dx * dx + dy * dy);
@@ -333,6 +350,7 @@
             dots.forEach(dot => {
                 dot.update();
                 dot.draw();
+                dot.drawLine();
             });
 
             requestAnimationFrame(animate);
