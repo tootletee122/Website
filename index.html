@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hey</title>
+    <title>Welcome to Khris' World</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Welcome to my personal website. Join me on a journey through creativity and innovation!">
+    <meta name="keywords" content="personal website, coding, music production, technology, gadgets">
+    <meta property="og:title" content="Khris' Personal Website">
+    <meta property="og:description" content="Join me on a journey through creativity and innovation!">
+    <meta property="og:image" content="https://example.com/background.jpg">
+    <meta property="og:url" content="https://example.com">
     <style>
         :root {
             --background-color: #1b1b2f;
@@ -198,8 +204,6 @@
             color: var(--text-color);
         }
     </style>
-    <meta name="description" content="Welcome to my personal website. Join me on a journey through creativity and innovation!">
-    <meta name="keywords" content="personal website, coding, music production, technology, gadgets">
 </head>
 <body>
     <header>
@@ -209,27 +213,29 @@
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Hey</h1>
-            <button class="dark-mode-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-            <div class="links">
-                <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
-                <a href="https://www.amazon.com" target="_blank" aria-label="Amazon">Amazon</a>
-                <a href="https://www.microcenter.com" target="_blank" aria-label="Micro Center">Micro Center</a>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Hey</h1>
+                <button class="dark-mode-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+                <div class="links">
+                    <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
+                    <a href="https://www.amazon.com" target="_blank" aria-label="Amazon">Amazon</a>
+                    <a href="https://www.microcenter.com" target="_blank" aria-label="Micro Center">Micro Center</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="about">
-        <div class="about-me">
-            <h2>About Me</h2>
-            <p>Welcome to my world of creativity and innovation! I'm Khris, an enthusiastic coder and audio enthusiast.</p>
-            <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
-            <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
-            <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
-        </div>
-    </section>
+        <section id="about">
+            <article class="about-me">
+                <h2>About Me</h2>
+                <p>Welcome to my world of creativity and innovation! I'm Khris, an enthusiastic coder and audio enthusiast.</p>
+                <p>When I'm not busy crafting amazing code, you'll find me lost in the realms of music production, blending beats and melodies to create auditory masterpieces.</p>
+                <p>But my passions don't end there. I'm an explorer of technology, always seeking out the latest gadgets and gizmos to push the boundaries of what's possible.</p>
+                <p>Join me on this thrilling journey as we dive deep into the realms of programming, audio engineering, and beyond!</p>
+            </article>
+        </section>
+    </main>
 
     <div class="cursor" id="cursor"></div>
     <canvas id="canvas"></canvas>
