@@ -13,12 +13,14 @@
     <meta property="og:url" content="https://example.com">
     <style>
         :root {
-            --background-color: #1b1b2f;
-            --text-color: #e43f5a;
+            --background-color: #1b1b2f; /* Dark background */
+            --text-color: #e43f5a; /* Reddish text */
             --overlay-color: rgba(27, 27, 47, 0.7);
             --primary-color: #162447;
             --secondary-color: #1f4068;
             --accent-color: #e43f5a;
+            --dot-color: #ffffff; /* White dots */
+            --dot-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Dot shadow */
         }
 
         body {
@@ -210,7 +212,7 @@
             background-color: var(--text-color);
             color: var(--background-color);
             padding: 10px 20px;
-            borderradius: 5px;
+            border-radius: 5px;
             display: none;
             cursor: pointer;
         }
@@ -270,7 +272,7 @@
         const ctx = canvas.getContext('2d');
         const dots = [];
         const cursor = document.getElementById('cursor');
-        const light = document.getElementById('light'); // Added
+        const light = document.getElementById('light');
         const numDots = 150;
         const dampingFactor = 0.982;
         const attractionRadius = 235;
@@ -314,10 +316,18 @@
         }
 
         Dot.prototype.draw = function() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
-            ctx.fill();
+            const dx = this.x - light.offsetLeft - light.offsetWidth / 2;
+            const dy = this.y - light.offsetTop - light.offsetHeight / 2;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < light.offsetWidth / 2) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowColor = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowBlur = 10;
+                ctx.fill();
+            }
         }
 
         Dot.prototype.drawLine = function() {
@@ -363,7 +373,9 @@
             cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
             cursor.style.opacity = '0.7';
 
-            light.style.transform = `translate(${e.pageX - 100}px, ${e.pageY - 100}px)`; // Added
+            light.style.left = e.pageX - light.offsetWidth / 2 + 'px';
+            light.style.top = e.pageY - light.offsetHeight / 2 + 'px';
+            light.style.transform = 'scale(1.5)';
         });
 
         document.addEventListener('mouseout', function() {
