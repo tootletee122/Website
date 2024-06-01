@@ -256,6 +256,7 @@
         const numDots = 150;
         const dampingFactor = 0.982;
         const attractionRadius = 235;
+        const stretchRadius = 150;
         let attractDots = true;
 
         canvas.width = window.innerWidth;
@@ -270,15 +271,13 @@
         }
 
         Dot.prototype.update = function() {
-            if (attractDots) {
-                const dx = this.x - mouseX;
-                const dy = this.y - mouseY;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance < attractionRadius) {
-                    this.vx -= dx * 0.001;
-                    this.vy -= dy * 0.001;
-                }
+            if (distance < attractionRadius) {
+                this.vx -= dx * 0.001;
+                this.vy -= dy * 0.001;
             }
 
             this.x += this.vx;
@@ -303,12 +302,27 @@
             ctx.fill();
         }
 
+        Dot.prototype.drawLine = function() {
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < stretchRadius) {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(mouseX, mouseY);
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+                ctx.stroke();
+            }
+        }
+
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             dots.forEach(dot => {
                 dot.update();
                 dot.draw();
+                dot.drawLine();
             });
 
             requestAnimationFrame(animate);
