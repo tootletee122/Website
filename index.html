@@ -142,6 +142,22 @@
             mix-blend-mode: difference;
         }
 
+        .light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px; /* Adjust size of the light */
+            height: 200px; /* Adjust size of the light */
+            background-color: var(--accent-color); /* Theme color */
+            border-radius: 50%;
+            filter: blur(30px); /* Adjust blur intensity */
+            pointer-events: none;
+            z-index: -1; /* Place under other elements */
+            transition: transform 0.1s ease-out;
+            transform-origin: center;
+            opacity: 0.6; /* Adjust opacity */
+        }
+
         canvas {
             position: absolute;
             top: 0;
@@ -194,7 +210,7 @@
             background-color: var(--text-color);
             color: var(--background-color);
             padding: 10px 20px;
-            border-radius: 5px;
+            borderradius: 5px;
             display: none;
             cursor: pointer;
         }
@@ -238,6 +254,7 @@
     </main>
 
     <div class="cursor" id="cursor"></div>
+    <div class="light" id="light"></div>
     <canvas id="canvas"></canvas>
     <button id="back-to-top" onclick="scrollToTop()">Back to Top</button>
 
@@ -253,6 +270,7 @@
         const ctx = canvas.getContext('2d');
         const dots = [];
         const cursor = document.getElementById('cursor');
+        const light = document.getElementById('light'); // Added
         const numDots = 150;
         const dampingFactor = 0.982;
         const attractionRadius = 235;
@@ -278,24 +296,6 @@
             if (distance < attractionRadius) {
                 this.vx -= dx * 0.001;
                 this.vy -= dy * 0.001;
-            }
-
-            // Collision detection with other dots
-            for (let i = 0; i < dots.length; i++) {
-                if (dots[i] !== this) {
-                    const dx = dots[i].x - this.x;
-                    const dy = dots[i].y - this.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < this.radius * 2) {
-                        const angle = Math.atan2(dy, dx);
-                        const targetX = this.x + Math.cos(angle) * (this.radius * 2 - distance);
-                        const targetY = this.y + Math.sin(angle) * (this.radius * 2 - distance);
-
-                        this.vx += (targetX - this.x) * 0.05;
-                        this.vy += (targetY - this.y) * 0.05;
-                    }
-                }
             }
 
             this.x += this.vx;
@@ -363,18 +363,7 @@
             cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
             cursor.style.opacity = '0.7';
 
-            document.querySelectorAll('a').forEach(link => {
-                link.addEventListener('mouseover', function() {
-                    cursor.style.width = '40px';
-                    cursor.style.height = '40px';
-                    cursor.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
-                });
-                link.addEventListener('mouseout', function() {
-                    cursor.style.width = '20px';
-                    cursor.style.height = '20px';
-                    cursor.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
-                });
-            });
+            light.style.transform = `translate(${e.pageX - 100}px, ${e.pageY - 100}px)`; // Added
         });
 
         document.addEventListener('mouseout', function() {
