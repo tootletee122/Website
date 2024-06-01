@@ -13,13 +13,14 @@
     <meta property="og:url" content="https://example.com">
     <style>
         :root {
-            --background-color: #1b1b2f;
-            --text-color: #e43f5a;
+            --background-color: #1b1b2f; /* Dark background */
+            --text-color: #e43f5a; /* Reddish text */
             --overlay-color: rgba(27, 27, 47, 0.7);
             --primary-color: #162447;
             --secondary-color: #1f4068;
             --accent-color: #e43f5a;
-            --dot-color: #e43f5a; /* New color for dots */
+            --dot-color: #ffffff; /* White dots */
+            --dot-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Dot shadow */
         }
 
         body {
@@ -39,7 +40,6 @@
             background-color: var(--primary-color);
             padding: 10px 0;
             z-index: 1000;
-            transition: background-color 0.3s;
         }
 
         nav {
@@ -62,7 +62,6 @@
             color: var(--primary-color);
         }
 
-        /* Parallax effect for hero section */
         .hero {
             height: 100vh;
             display: flex;
@@ -74,7 +73,6 @@
             color: var(--text-color);
             text-align: center;
             filter: brightness(1.1) contrast(1.2) saturate(1.3);
-            transition: filter 0.3s;
         }
 
         .hero::before {
@@ -91,11 +89,6 @@
             position: relative;
             z-index: 1;
             animation: fadeIn 1s ease-in-out;
-        }
-
-        /* Smooth scroll for anchor links */
-        nav a, .back-to-top {
-            scroll-behavior: smooth;
         }
 
         h1 {
@@ -151,6 +144,22 @@
             mix-blend-mode: difference;
         }
 
+        .light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px; /* Adjust size of the light */
+            height: 200px; /* Adjust size of the light */
+            background-color: var(--accent-color); /* Theme color */
+            border-radius: 50%;
+            filter: blur(30px); /* Adjust blur intensity */
+            pointer-events: none;
+            z-index: -1; /* Place under other elements */
+            transition: transform 0.1s ease-out;
+            transform-origin: center;
+            opacity: 0.6; /* Adjust opacity */
+        }
+
         canvas {
             position: absolute;
             top: 0;
@@ -158,7 +167,6 @@
             z-index: -1;
         }
 
-        /* Dark mode toggle button */
         .dark-mode-toggle {
             position: absolute;
             top: 20px;
@@ -176,7 +184,6 @@
             outline: 2px solid var(--text-color);
         }
 
-        /* Footer */
         footer {
             background-color: var(--primary-color);
             padding: 20px;
@@ -198,8 +205,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Back to top button */
-        .back-to-top {
+        #back-to-top {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -209,85 +215,9 @@
             border-radius: 5px;
             display: none;
             cursor: pointer;
-            transition: opacity 0.3s;
         }
 
-        .back-to-top:hover {
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        /* Add a subtle animation to the navigation links */
-        nav a {
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        nav a:hover, nav a:focus {
-            transform: scale(1.1);
-        }
-
-        /* Apply a drop shadow effect to the header */
-        header {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Smooth scroll effect for anchor links */
-        nav a, .back-to-top {
-            scroll-behavior: smooth;
-        }
-
-        /* Parallax effect for hero section */
-        .hero {
-            transition: filter 0.3s, transform 0.3s;
-        }
-
-        /* Darken the background color of the hero section */
-        .hero::before {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        /* Smooth scroll effect for anchor links */
-        nav a, .back-to-top {
-            scroll-behavior: smooth;
-        }
-
-        /* Subtle border effect for article container in about me section */
-        .about-me {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Customize cursor */
-        .cursor {
-            transition: background-color 0.3s, opacity 0.3s, transform 0.3s;
-        }
-
-        /* Add animation to cursor when hovering over links */
-        a:hover .cursor {
-            background-color: var(--background-color);
-            width: 40px;
-            height: 40px;
-            transform: scale(1.2);
-        }
-
-        /* Add animation to back to top button */
-        .back-to-top {
-            transition: opacity 0.3s;
-        }
-
-        /* Darken the background color of the footer */
-        footer {
-            background-color: var(--primary-color);
-            transition: background-color 0.3s;
-        }
-
-        /* Change text color of footer links */
-        footer a {
-            color: var(--text-color);
-            transition: color 0.3s;
-        }
-
-        /* Darken the background color of the back to top button */
-        .back-to-top:hover {
+        #back-to-top:hover {
             background-color: var(--background-color);
             color: var(--text-color);
         }
@@ -325,19 +255,11 @@
         </section>
     </main>
 
-    <!-- Cursor element -->
     <div class="cursor" id="cursor"></div>
-    
-    <!-- Light element -->
     <div class="light" id="light"></div>
-
-    <!-- Canvas element -->
     <canvas id="canvas"></canvas>
+    <button id="back-to-top" onclick="scrollToTop()">Back to Top</button>
 
-    <!-- Back to top button -->
-    <button class="back-to-top" id="back-to-top" onclick="scrollToTop()">Back to Top</button>
-
-    <!-- Footer -->
     <footer>
         <p>&copy; 2023 Khris. All rights reserved.</p>
         <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">YouTube</a>
@@ -346,7 +268,167 @@
     </footer>
 
     <script>
-        // JavaScript code here
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const dots = [];
+        const cursor = document.getElementById('cursor');
+        const light = document.getElementById('light');
+        const numDots = 150;
+        const dampingFactor = 0.982;
+        const attractionRadius = 235;
+        const stretchRadius = 150;
+        let attractDots = true;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function Dot(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() * 2 - 1);
+            this.vy = (Math.random() * 2 - 1);
+            this.radius = 3;
+        }
+
+        Dot.prototype.update = function() {
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < attractionRadius) {
+                this.vx -= dx * 0.001;
+                this.vy -= dy * 0.001;
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+
+            this.vx *= dampingFactor;
+            this.vy *= dampingFactor;
+
+            if (Math.abs(this.vx) < 0.1 && Math.abs(this.vy) < 0.1) {
+                this.vx = 0;
+                this.vy = 0;
+            }
+
+            if (this.x > canvas.width || this.x < 0) this.x = (this.x + canvas.width) % canvas.width;
+            if (this.y > canvas.height || this.y < 0) this.y = (this.y + canvas.height) % canvas.height;
+        }
+
+        Dot.prototype.draw = function() {
+            const dx = this.x - light.offsetLeft - light.offsetWidth / 2;
+            const dy = this.y - light.offsetTop - light.offsetHeight / 2;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < light.offsetWidth / 2) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowColor = getComputedStyle(document.documentElement).getPropertyValue('--dot-color');
+                ctx.shadowBlur = 10;
+                ctx.fill();
+            }
+        }
+
+        Dot.prototype.drawLine = function() {
+            const dx = this.x - mouseX;
+            const dy = this.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < stretchRadius) {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(mouseX, mouseY);
+                ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+                ctx.stroke();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            dots.forEach(dot => {
+                dot.update();
+                dot.draw();
+                dot.drawLine();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        for (let i = 0; i < numDots; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            dots.push(new Dot(x, y));
+        }
+
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            cursor.style.opacity = '0.7';
+
+            light.style.left = e.pageX - light.offsetWidth / 2 + 'px';
+            light.style.top = e.pageY - light.offsetHeight / 2 + 'px';
+            light.style.transform = 'scale(1.5)';
+        });
+
+        document.addEventListener('mouseout', function() {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.opacity = '1';
+        });
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        document.addEventListener('mousedown', function(event) {
+            if (event.button === 0) {
+                attractDots = true;
+            }
+        });
+
+        document.addEventListener('mouseup', function(event) {
+            if (event.button === 0) {
+                attractDots = false;
+            }
+        });
+
+        function toggleDarkMode() {
+            if (document.body.style.getPropertyValue('--background-color') === 'white') {
+                document.body.style.setProperty('--background-color', '#1b1b2f');
+                document.body.style.setProperty('--text-color', '#e43f5a');
+            } else {
+                document.body.style.setProperty('--background-color', 'white');
+                document.body.style.setProperty('--text-color', '#1b1b2f');
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function handleScroll() {
+            const backToTopButton = document.getElementById('back-to-top');
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        animate();
     </script>
 </body>
 </html>
