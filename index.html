@@ -13,14 +13,14 @@
     <meta property="og:url" content="https://example.com">
     <style>
         :root {
-            --background-color: #1b1b2f; /* Dark background */
-            --text-color: #e43f5a; /* Reddish text */
+            --background-color: #1b1b2f;
+            --text-color: #e43f5a;
             --overlay-color: rgba(27, 27, 47, 0.7);
             --primary-color: #162447;
             --secondary-color: #1f4068;
             --accent-color: #e43f5a;
-            --dot-color: #ffffff; /* White dots */
-            --dot-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Dot shadow */
+            --dot-color: #ffffff;
+            --dot-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         body {
@@ -31,7 +31,6 @@
             text-align: center;
             scroll-behavior: smooth;
             position: relative;
-            filter: brightness(1.1) contrast(1.2) saturate(1.3);
         }
 
         header {
@@ -72,7 +71,6 @@
             position: relative;
             color: var(--text-color);
             text-align: center;
-            filter: brightness(1.1) contrast(1.2) saturate(1.3);
         }
 
         .hero::before {
@@ -148,16 +146,16 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 200px; /* Adjust size of the light */
-            height: 200px; /* Adjust size of the light */
-            background-color: var(--accent-color); /* Theme color */
+            width: 200px;
+            height: 200px;
+            background-color: var(--accent-color);
             border-radius: 50%;
-            filter: blur(30px); /* Adjust blur intensity */
+            filter: blur(30px);
             pointer-events: none;
-            z-index: -1; /* Place under other elements */
+            z-index: -1;
             transition: transform 0.1s ease-out;
             transform-origin: center;
-            opacity: 0.6; /* Adjust opacity */
+            opacity: 0.6;
         }
 
         canvas {
@@ -221,6 +219,16 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .about-me {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -277,7 +285,6 @@
         const dampingFactor = 0.982;
         const attractionRadius = 235;
         const stretchRadius = 150;
-        let attractDots = true;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
